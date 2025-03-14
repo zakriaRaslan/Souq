@@ -16,6 +16,9 @@ namespace Souq.infrastructure.Data.Config
             builder.Property(x => x.Name).IsRequired();
             builder.Property(x=>x.Description).IsRequired();
             builder.Property(x=>x.Price).IsRequired().HasColumnType(typeName:"decimal(18,2)");
+            builder.HasData(
+                new Product {Id=1 , Description="test" , Name = "test" , CategoryId=1 , Price=12 }
+                );
         }
     }
 }

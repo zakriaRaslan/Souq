@@ -15,6 +15,9 @@ namespace Souq.infrastructure.Data.Config
         {
             builder.Property(x => x.Name).IsRequired().HasMaxLength(40);
             builder.Property(x => x.Description).IsRequired();
+            builder.HasData(
+                new Category {Id=1 , Name="test" ,Description="test"}
+                );
         }
     }
 }
