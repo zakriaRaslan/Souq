@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Souq.infrastructure.Data;
 
@@ -10,9 +11,11 @@ using Souq.infrastructure.Data;
 namespace Souq.infrastructure.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250315005407_seed image data")]
+    partial class seedimagedata
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -99,10 +102,7 @@ namespace Souq.infrastructure.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<decimal>("NewPrice")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<decimal>("OldPrice")
+                    b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
@@ -118,8 +118,7 @@ namespace Souq.infrastructure.Data.Migrations
                             CategoryId = 1,
                             Description = "test",
                             Name = "test",
-                            NewPrice = 12m,
-                            OldPrice = 0m
+                            Price = 12m
                         });
                 });
 

@@ -13,8 +13,7 @@ namespace Souq.infrastructure.Repositories
     public class GenericRepo<T> : IGenericRepo<T> where T : class
     {
 
-        private readonly AppDbContext _context;
-
+        protected readonly AppDbContext _context;
         public GenericRepo(AppDbContext context)
         {
             _context = context;
@@ -26,12 +25,7 @@ namespace Souq.infrastructure.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task DeleteAsync(int id)
-        {
-            var entity = await _context.Set<T>().FindAsync(id);
-            _context.Set<T>().Remove(entity);
-            await _context.SaveChangesAsync();
-        }
+     
 
         public async Task<IReadOnlyList<T>> GetAllAsync() => await _context.Set<T>().AsNoTracking().ToListAsync();
        
@@ -64,10 +58,30 @@ namespace Souq.infrastructure.Repositories
             return entity ;
         }
 
-        public async Task UpdateAsync(T entity)
+        public async Task<bool> UpdateAsync(T entity)
         {
            _context.Entry(entity).State = EntityState.Modified;
+            using var transaction = await _context.Database.BeginTransactionAsync();
+            try
+            {
+                await _context.SaveChangesAsync();
+                await transaction.CommitAsync();
+                return true;
+            }
+            catch (Exception)
+            {
+                await transaction.RollbackAsync();
+                return false;
+            }
+            
+        }
+        public async Task<bool> DeleteAsync(int id)
+        {
+            var entity = await _context.Set<T>().FindAsync(id);
+            if (entity == null) return false;
+            _context.Set<T>().Remove(entity);
             await _context.SaveChangesAsync();
+            return true;
         }
     }
 }

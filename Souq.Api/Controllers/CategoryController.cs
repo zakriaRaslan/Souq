@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Souq.Api.Hellpers;
 using Souq.core.Dtos;
 using Souq.core.Entities.Product;
 using Souq.core.Interfaces;
@@ -54,7 +55,7 @@ namespace Souq.Api.Controllers
             {
                 Category category = _mapper.Map<Category>(categoryDto);
                 await _unitOfWork.CategoryRepo.AddAsync(category);
-                return Ok(new { message = "The Item has beed added successfully" });
+                return Ok(new ResponseApi(200 , "The Category Added Successfully"));
             }
             catch (Exception ex)
             {
@@ -69,7 +70,7 @@ namespace Souq.Api.Controllers
             {
                 Category category = _mapper.Map<Category>(updateCategoryDto);
                 await _unitOfWork.CategoryRepo.UpdateAsync(category);
-                return Ok(new { message = "The category is updated successfullt" });
+                return Ok(new ResponseApi(200 , "The category updated successfully"));
             }
             catch (Exception ex)
             {
@@ -84,7 +85,7 @@ namespace Souq.Api.Controllers
             try
             {
                 await _unitOfWork.CategoryRepo.DeleteAsync(id);
-                return Ok(new { message = "The categort deleted successfully"});
+                return Ok(new ResponseApi(200,"Category Deleted successfully"));
             }
             catch (Exception ex)
             {
