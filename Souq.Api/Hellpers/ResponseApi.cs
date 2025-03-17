@@ -18,7 +18,10 @@
                 200=>"Successfully",
                 400=>"BadRequest",
                 401=>"UnAuthorized",
+                403 =>"Forbidden",
+                404 => "Not Found",
                 500=>"Server Error",
+                409 => "Conflict",
                 _ =>null,
 
             };     
