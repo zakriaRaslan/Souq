@@ -18,6 +18,13 @@ namespace Souq.Api
             builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             builder.Services.InfrastructureConfiguration(builder.Configuration);
             builder.Services.AddMemoryCache();
+            builder.Services.AddCors(op =>
+            {
+                op.AddPolicy("CorsPolicy", p =>
+                {
+                    p.AllowAnyHeader().AllowAnyMethod().AllowCredentials().WithOrigins("https://localhost:4200");
+                });
+            });
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -26,6 +33,7 @@ namespace Souq.Api
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+            app.UseCors("CorsPolicy");
             app.UseMiddleware<ExceptionMiddleware>();
             app.UseStatusCodePagesWithReExecute("/errors/{0}");
             app.UseHttpsRedirection();

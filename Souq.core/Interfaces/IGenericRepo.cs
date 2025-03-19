@@ -16,5 +16,6 @@ namespace Souq.core.Interfaces
         Task AddAsync(T entity);
         Task<bool> UpdateAsync(T entity);
         Task<bool> DeleteAsync(int id);
+        Task<int> GetCountAsync();
     }
 }

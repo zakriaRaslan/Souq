@@ -4,26 +4,64 @@ using Souq.core.Dtos;
 using Souq.core.Entities.Product;
 using Souq.core.Interfaces;
 using Souq.core.Services;
+using Souq.core.Shared;
 using Souq.infrastructure.Data;
 
 namespace Souq.infrastructure.Repositories
 {
     public class ProductRepo : GenericRepo<Product>, IProductRepo
-    {    
+    {
         private readonly IMapper _mapper;
         private readonly IImageServiceManagement _imagesService;
         public ProductRepo(AppDbContext context, IMapper mapper, IImageServiceManagement imagesService) : base(context)
-        {        
+        {
             _mapper = mapper;
             _imagesService = imagesService;
+        }
+
+        public async Task<IEnumerable<ProductDto>> GetAllAsync(GetAllProductsParams getAllProductsParams)
+        {
+            IQueryable<Product> query = _context.Products.Include(p => p.Category).Include(p => p.Images).AsNoTracking();
+
+
+            //Searching By Words
+            if (!string.IsNullOrEmpty(getAllProductsParams.SearchingWord))
+            {
+                string[] ListOfSearchingWords = getAllProductsParams.SearchingWord.Split(" ");
+
+                query = query.Where(x => ListOfSearchingWords.All(w =>
+                    x.Name.ToLower().Contains(w.ToLower())
+                    ||
+                    x.Description.ToLower().Contains(w.ToLower())
+               ));
+
+            }
+
+            // Filter By Category
+            if (getAllProductsParams.CategoryId != null)
+            {
+                query = query.Where(x => x.CategoryId == getAllProductsParams.CategoryId);
+            }
+            //Sorting 
+            query = getAllProductsParams.Sort switch
+            {
+                "priceAse" => query.OrderBy(x => x.NewPrice),
+                "priceDes" => query.OrderByDescending(x => x.NewPrice),
+                _ => query.OrderByDescending(x => x.Name),
+            };
+
+            // Pagination 
+            query = query.Skip(getAllProductsParams.PageSize * (getAllProductsParams.PageNumber - 1)).Take(getAllProductsParams.PageSize);
+            var result = _mapper.Map<List<ProductDto>>(query);
+            return (result);
         }
 
         public async Task<bool> AddAsync(AddProductDto addProductDto)
         {
             if (addProductDto == null) return false;
-            Product product =  _mapper.Map<Product>(addProductDto);
-            await _context.Products.AddAsync(product);          
-
+            Product product = _mapper.Map<Product>(addProductDto);
+            await _context.Products.AddAsync(product);
+            await _context.SaveChangesAsync();
             List<string> imagesPaths = await _imagesService.AddImagesAsync(addProductDto.Images, addProductDto.Name);
             List<Image> images = imagesPaths.Select(path => new Image()
             {
@@ -37,7 +75,7 @@ namespace Souq.infrastructure.Repositories
             return true;
         }
 
-       
+
 
         public async Task<bool> UpdateAsync(UpdateProductDto updateProductDto)
         {
@@ -45,23 +83,23 @@ namespace Souq.infrastructure.Repositories
 
             using var transaction = await _context.Database.BeginTransactionAsync();
 
-            Product? productFromDB = await _context.Products.Include(x=>x.Category).Include(x=>x.Images)
-                .FirstOrDefaultAsync(x=> EF.Property<int>(x , "Id") == updateProductDto.Id);
+            Product? productFromDB = await _context.Products.Include(x => x.Category).Include(x => x.Images)
+                .FirstOrDefaultAsync(x => EF.Property<int>(x, "Id") == updateProductDto.Id);
 
-            if(productFromDB == null) return false;
+            if (productFromDB == null) return false;
 
-            _mapper.Map(updateProductDto,productFromDB);
+            _mapper.Map(updateProductDto, productFromDB);
 
-            List<Image> ImageslistFromDb = await _context.Images.Where(x=>x.ProductId == productFromDB.Id).ToListAsync();
+            List<Image> ImageslistFromDb = await _context.Images.Where(x => x.ProductId == productFromDB.Id).ToListAsync();
 
-            foreach (Image image in ImageslistFromDb) 
+            foreach (Image image in ImageslistFromDb)
             {
                 _imagesService.DeleteImage(image.ImageName);
             }
 
             _context.Images.RemoveRange(ImageslistFromDb);
 
-            if(updateProductDto.Images != null)
+            if (updateProductDto.Images != null)
             {
                 List<string> newImagesPaths = await _imagesService.AddImagesAsync(updateProductDto.Images, updateProductDto.Name);
 
@@ -73,21 +111,21 @@ namespace Souq.infrastructure.Repositories
 
                 _context.Images.AddRange(images);
             }
-           await _context.SaveChangesAsync();
-           await transaction.CommitAsync();
+            await _context.SaveChangesAsync();
+            await transaction.CommitAsync();
             return true;
         }
 
         public async Task DeleteAsync(Product product)
         {
             List<Image> productImagesFromDb = await _context.Images.Where(i => i.ProductId == product.Id).ToListAsync();
-            foreach (Image image in productImagesFromDb) 
+            foreach (Image image in productImagesFromDb)
             {
-                 _imagesService.DeleteImage(image.ImageName);
+                _imagesService.DeleteImage(image.ImageName);
             }
 
             _context.Products.Remove(product);
-            await _context.SaveChangesAsync();           
+            await _context.SaveChangesAsync();
         }
     }
 }

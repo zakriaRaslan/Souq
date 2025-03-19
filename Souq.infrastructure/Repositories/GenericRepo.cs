@@ -83,5 +83,8 @@ namespace Souq.infrastructure.Repositories
             await _context.SaveChangesAsync();
             return true;
         }
+
+        public async Task<int> GetCountAsync() => await _context.Set<T>().CountAsync();
+       
     }
 }

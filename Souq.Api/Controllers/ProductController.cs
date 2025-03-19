@@ -5,6 +5,7 @@ using Souq.Api.Hellpers;
 using Souq.core.Dtos;
 using Souq.core.Entities.Product;
 using Souq.core.Interfaces;
+using Souq.core.Shared;
 
 namespace Souq.Api.Controllers
 {
@@ -17,14 +18,14 @@ namespace Souq.Api.Controllers
 
 
         [HttpGet("get-all")]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAll([FromQuery]GetAllProductsParams getAllProductsParams)
         {
             try
             {
-                IReadOnlyList<Product> Products = await _unitOfWork.ProductRepo.GetAllAsync(x=>x.Category , x=>x.Images);
+                var Products = await _unitOfWork.ProductRepo.GetAllAsync(getAllProductsParams);
                 if (Products is null) return BadRequest(new ResponseApi(400));
-                IReadOnlyList<ProductDto> result = _mapper.Map<List<ProductDto>>(Products);
-                return Ok(result);
+               int TotalCountOfProducts = await _unitOfWork.ProductRepo.GetCountAsync();
+                return Ok(new Pagination<ProductDto>(getAllProductsParams.PageNumber ,getAllProductsParams.PageSize ,TotalCountOfProducts , Products));
             }
             catch (Exception ex)
             {
