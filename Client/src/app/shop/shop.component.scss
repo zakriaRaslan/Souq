@@ -1,0 +1,80 @@
+// $primary-color: #4a148c; // Deep purple
+// $secondary-color: #f50057; // Bright pink (Material Design's pink-500)
+// $text-color: white;
+// @use "sass:color";
+// $hover-color: color.adjust($secondary-color, $lightness: -10%); // Darken the pink on hover
+// $dropdown-bg: #f3e5f5; // Very light purple (Material Design's purple-50)
+// $dropdown-shadow: rgba(0, 0, 0, 0.1); // Slightly stronger shadow
+// $transition-duration: 0.3s; // 300ms
+
+// 💠 المتغيرات الأساسية
+$primary-color: #007bff;
+$secondary-color: #6c757d;
+$success-color: #28a745;
+$danger-color: #dc3545;
+$text-color: #333;
+$bg-light: #f8f9fa;
+$dropdown-shadow: rgba(0, 0, 0, 0.1); // Slightly stronger shadow
+$transition-duration: 0.3s; // 300ms
+
+
+
+// 💠 تنسيق عام
+body {
+  font-family: "Arial", sans-serif;
+  background-color: $bg-light;
+  color: $text-color;
+}
+
+// 💠 العناوين
+h1.main-title {
+  text-align: center;
+  color: $primary-color;
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+}
+
+h4.section-title {
+  color: $secondary-color;
+  margin-bottom: 1rem;
+}
+
+// 💠 الشريط الجانبي (الفلاتر)
+.sidebar {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+// 💠 القوائم
+.custom-list-group {
+  .custom-list-item {
+    cursor: pointer;
+    transition: background-color $transition-duration ease,
+      color $transition-duration ease;
+    &:hover {
+      background-color: $primary-color;
+    }
+    &.active {
+      background-color: $primary-color;
+      border-color: $primary-color;
+      color: $text-color;
+    }
+  }
+}
+
+
+// 💠 البحث والتصفية
+.search-container {
+  .search-bar {
+    input {
+      border-radius: 5px;
+      &:focus {
+        outline: none;
+        border-color: $primary-color;
+      }
+    }
+  }
+}
+

@@ -22,7 +22,7 @@ namespace Souq.Api
             {
                 op.AddPolicy("CorsPolicy", p =>
                 {
-                    p.AllowAnyHeader().AllowAnyMethod().AllowCredentials().WithOrigins("https://localhost:4200");
+                    p.AllowAnyHeader().AllowAnyMethod().AllowCredentials().WithOrigins("http://localhost:4200");
                 });
             });
             var app = builder.Build();
@@ -34,7 +34,11 @@ namespace Souq.Api
                 app.UseSwaggerUI();
             }
             app.UseCors("CorsPolicy");
+            if (app.Environment.IsProduction())
+            {
             app.UseMiddleware<ExceptionMiddleware>();
+            }
+            app.UseStaticFiles();
             app.UseStatusCodePagesWithReExecute("/errors/{0}");
             app.UseHttpsRedirection();
 

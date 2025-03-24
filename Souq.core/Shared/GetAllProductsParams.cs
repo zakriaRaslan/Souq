@@ -19,7 +19,7 @@
                 }
             }
         }
-        private int _pageNumber;
+        private int _pageNumber = 1;
         public int PageNumber 
         {
             get => _pageNumber;

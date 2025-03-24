@@ -1,0 +1,58 @@
+<nav class="navbar navbar-expand-lg navbar-light">
+  <div class="container">
+    <!-- Website Logo -->
+    <a routerLink="/" class="navbar-brand">
+      <img src="favicon.ico" alt="Logo" class="logo" />
+      <span class="text-white">Souq</span>
+    </a>
+
+    <!-- Toggle Button for Mobile -->
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <!-- Navigation Links -->
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item"><a routerLink="/" class="nav-link">Home</a></li>
+        <li class="nav-item"><a routerLink="/shopping" class="nav-link">Shopping</a></li>
+        <li class="nav-item"><a routerLink="/about" class="nav-link">About us</a></li>
+        <li class="nav-item"><a routerLink="/best-seller" class="nav-link">Best Seller</a></li>
+      </ul>
+
+      <!-- Search Bar -->
+      <form class="form-inline mx-auto">
+        <div class="input-group">
+          <input type="text" class="form-control" placeholder="Search..." />
+          <div class="input-group-append">
+            <button type="submit" class="btn btn-light">
+              <i class="material-icons">search</i>
+            </button>
+          </div>
+        </div>
+      </form>
+
+      <!-- Icons Section -->
+      <ul class="navbar-nav ml-auto align-items-center">
+        <!-- Shopping Cart Icon -->
+        <li class="nav-item">
+          <a routerLink="/cart" class="nav-link">
+            <i class="material-icons">shopping_cart</i>
+          </a>
+        </li>
+
+        <!-- User Account Dropdown -->
+        <li class="nav-item dropdown">
+          <a routerLink="#" class="nav-link dropdown-toggle" id="accountDropdown" role="button" (click)="toggleDropdown()">
+            <i class="material-icons">account_circle</i>
+          </a>
+          <div class="dropdown-menu dropdown-menu-right" [class.show]="isDropdownOpen" aria-labelledby="accountDropdown">
+            <a routerLink="account/register" class="dropdown-item"><i class="fa fa-user-plus"></i> Register</a>
+            <a routerLink="account/login" class="dropdown-item"><i class="fa fa-sign-in"></i> Login</a>
+            <a routerLink="account/orders" class="dropdown-item"><i class="fa fa-list"></i> My Order</a>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>

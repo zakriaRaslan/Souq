@@ -52,7 +52,7 @@ namespace Souq.infrastructure.Repositories
 
             // Pagination 
             query = query.Skip(getAllProductsParams.PageSize * (getAllProductsParams.PageNumber - 1)).Take(getAllProductsParams.PageSize);
-            var result = _mapper.Map<List<ProductDto>>(query);
+            var result = _mapper.Map<List<ProductDto>>(query.ToList());
             return (result);
         }
 

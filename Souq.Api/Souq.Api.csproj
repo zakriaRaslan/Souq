@@ -20,8 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\" />
-    <Folder Include="wwwroot\Images\Gaming Keyboard\" />
+    <Folder Include="wwwroot\Images\" />
   </ItemGroup>
 
 </Project>

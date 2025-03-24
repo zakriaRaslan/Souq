@@ -3,6 +3,11 @@ import { BrowserModule, provideClientHydration, withEventReplay } from '@angular
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { CoreModule } from './core/core.module';
+import { SharedModule } from './shared/shared.module';
+import { provideHttpClient, withFetch } from '@angular/common/http';
+import { ShopComponent } from './shop/shop.component';
+import { ShopModule } from './shop/shop.module';
 
 @NgModule({
   declarations: [
@@ -10,10 +15,14 @@ import { AppComponent } from './app.component';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    CoreModule,
+    SharedModule,
+    ShopModule
   ],
   providers: [
-    provideClientHydration(withEventReplay())
+    provideClientHydration(withEventReplay()),
+    provideHttpClient(withFetch())
   ],
   bootstrap: [AppComponent]
 })

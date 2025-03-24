@@ -1,0 +1,44 @@
+<div class="container mt-5">
+  <div class="row">
+    <h1 class="main-title">Shopping</h1>
+    <section class="col-md-3">
+      <div class="sidebar">
+        <h4 class="section-title">Sorting</h4>
+        <div class="custom-select-wrapper mb-4">
+          <select name="sorting" id="" class="form-select">
+            <option value="Name">Name</option>
+            <option value="PriceAse">Price:Min-To-Max</option>
+            <option value="PriceDes">Price:Max-To-Min</option>
+          </select>
+        </div>
+        <h4 class="section-title">Categories</h4>
+        <ul class="list-group custom-list-group">
+          <li class="list-group-item custom-list-item">Laptop</li>
+          <li class="list-group-item custom-list-item">Mobile</li>
+          <li class="list-group-item custom-list-item">Watch</li>
+        </ul>
+      </div>
+    </section>
+    <section class="col-md-9">
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <div class="paging-container">
+          <span class="text-dark"> Showing 3 of 5 </span>
+        </div>
+        <div class="search-container">
+          <div class="input-group search-bar">
+            <input type="text" class="form-control" placeholder="Search">
+            <input type="button" value="Search" class="btn btn-primary">
+            <input type="button" value="Reset" class="btn btn-danger">
+          </div>
+        </div>
+      </div>
+      <div class="row g-4">
+        @for (product of products; track $index) {
+          <ng-container>
+            <app-product-card [product]="product" class="product-item col-lg-4 col-md-6"></app-product-card>
+          </ng-container>
+        }
+      </div>
+    </section>
+  </div>
+</div>
