@@ -46,7 +46,7 @@ namespace Souq.infrastructure.Repositories
             query = getAllProductsParams.Sort switch
             {
                 "priceAse" => query.OrderBy(x => x.NewPrice),
-                "priceDes" => query.OrderByDescending(x => x.NewPrice),
+                "priceDesc" => query.OrderByDescending(x => x.NewPrice),
                 _ => query.OrderByDescending(x => x.Name),
             };
 

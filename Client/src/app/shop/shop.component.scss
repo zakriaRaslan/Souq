@@ -8,8 +8,8 @@
 // $transition-duration: 0.3s; // 300ms
 
 // 💠 المتغيرات الأساسية
-$primary-color: #007bff;
-$secondary-color: #6c757d;
+$primary-color: #4a148c;
+$secondary-color: #f50057;
 $success-color: #28a745;
 $danger-color: #dc3545;
 $text-color: #333;
@@ -35,7 +35,7 @@ h1.main-title {
 }
 
 h4.section-title {
-  color: $secondary-color;
+  color: $primary-color;
   margin-bottom: 1rem;
 }
 
@@ -54,7 +54,7 @@ h4.section-title {
     transition: background-color $transition-duration ease,
       color $transition-duration ease;
     &:hover {
-      background-color: $primary-color;
+      background-color: lighten($secondary-color, 30%);
     }
     &.active {
       background-color: $primary-color;
@@ -63,8 +63,19 @@ h4.section-title {
     }
   }
 }
+.form-select {
+  background-color: white;
+  color: black;
 
-
+  &.opened option {
+    background-color: white !important;
+    color: black;
+  }
+  &hover {
+    background-color: $secondary-color;
+    color: black;
+  }
+}
 // 💠 البحث والتصفية
 .search-container {
   .search-bar {
