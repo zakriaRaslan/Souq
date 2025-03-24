@@ -12,13 +12,16 @@ export class ShopService {
   constructor(private http:HttpClient) { }
 
   // Get Products
-  getProducts(categoryId?:number , sortOption?:string){
+  getProducts(categoryId?:number , sortOption?:string , Search?:string){
     let params = new HttpParams();
     if(categoryId){
       params = params.append('categoryId', categoryId);
     }
     if(sortOption){
       params = params.append('Sort', sortOption);
+    }
+    if(Search){
+      params = params.append('SearchingWord', Search);
     }
     return this.http.get<IPagination>(this.baseUrl + "Product/get-all", {params: params})
   }
