@@ -11,7 +11,7 @@ namespace Souq.core.Interfaces
 {
     public interface IProductRepo:IGenericRepo<Product>
     {
-        Task<IEnumerable<ProductDto>> GetAllAsync(GetAllProductsParams getAllProductsParams);
+        Task<ReturnProductDto> GetAllAsync(GetAllProductsParams getAllProductsParams);
         Task<bool> AddAsync(AddProductDto addProductDto);
         Task<bool> UpdateAsync(UpdateProductDto updateProductDto);
         Task DeleteAsync(Product product);

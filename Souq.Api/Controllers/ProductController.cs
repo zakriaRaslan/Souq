@@ -22,10 +22,10 @@ namespace Souq.Api.Controllers
         {
             try
             {
-                var Products = await _unitOfWork.ProductRepo.GetAllAsync(getAllProductsParams);
-                if (Products is null) return BadRequest(new ResponseApi(400));
-               int TotalCountOfProducts = await _unitOfWork.ProductRepo.GetCountAsync();
-                return Ok(new Pagination<ProductDto>(getAllProductsParams.PageNumber ,getAllProductsParams.PageSize ,TotalCountOfProducts , Products));
+                var returnProductDto = await _unitOfWork.ProductRepo.GetAllAsync(getAllProductsParams);
+                if (returnProductDto is null) return BadRequest(new ResponseApi(400));
+               
+                return Ok(new Pagination<ProductDto>(getAllProductsParams.PageNumber ,getAllProductsParams.PageSize ,returnProductDto.TotalCount , returnProductDto.Products));
             }
             catch (Exception ex)
             {

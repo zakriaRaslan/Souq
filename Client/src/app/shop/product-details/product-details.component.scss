@@ -1,0 +1,128 @@
+// Variables
+$primary-color: #4a148c;
+$secondary-color: #f50057;
+$success-color: #28a745;
+$danger-color: #dc3545;
+$text-color: #333;
+$bg-light: #f8f9fa;
+$dropdown-shadow: rgba(0, 0, 0, 0.1); // Slightly stronger shadow
+$transition-duration: 0.3s; // 300ms
+
+.product-details {
+  background: $bg-light;
+  color: $text-color;
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px $dropdown-shadow;
+  transition: all $transition-duration ease-in-out;
+
+  .image-gallery {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .main-image {
+      min-width: 400px;  // Fixed width
+      min-height: 400px; // Fixed height
+      max-width: 600px;
+      max-height: 600px;
+      object-fit: cover;
+      border-radius: 10px;
+      margin-bottom: 1rem;
+      transition: transform $transition-duration ease-in-out;
+
+      &:hover {
+        transform: scale(1.02);
+      }
+    }
+
+    .thumbnail-container {
+      display: flex;
+      gap: 10px;
+
+      .thumbnail {
+        width: 60px;
+        height: 60px;
+        object-fit: cover;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: transform $transition-duration ease;
+
+        &:hover {
+          transform: scale(1.1);
+        }
+      }
+    }
+  }
+
+  .product-title {
+    font-size: 1.8rem;
+    color: $primary-color;
+  }
+
+  .product-description {
+    font-size: 1rem;
+    margin: 1rem 0;
+    color: darken($text-color, 10%);
+  }
+
+  .product-pricing {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.5rem;
+
+    .old-price {
+      text-decoration: line-through;
+      color: $danger-color;
+    }
+
+    .new-price {
+      color: $secondary-color;
+      font-weight: bold;
+    }
+  }
+
+  .category {
+    font-size: 1rem;
+    margin-top: 0.5rem;
+    font-weight: bold;
+  }
+
+  .btn {
+    border-radius: 5px;
+    padding: 10px 15px;
+    font-size: 1rem;
+    transition: background $transition-duration ease-in-out, transform $transition-duration ease;
+
+    &.btn-primary {
+      background: $primary-color;
+      color: white;
+
+      &:hover {
+        background: lighten($primary-color, 10%);
+        transform: translateY(-2px);
+      }
+    }
+
+    &.btn-success {
+      background: $success-color;
+      color: white;
+
+      &:hover {
+        background: lighten($success-color, 10%);
+        transform: translateY(-2px);
+      }
+    }
+
+    &.btn-danger {
+      background: $danger-color;
+      color: white;
+
+      &:hover {
+        background: lighten($danger-color, 10%);
+        transform: translateY(-2px);
+      }
+    }
+  }
+}

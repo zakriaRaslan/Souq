@@ -1,0 +1,71 @@
+@if(product){
+<div class="product-details container">
+  <div class="row">
+    <!-- Product Image Gallery -->
+    <div class="col-md-6">
+      <div class="image-gallery">
+        <lib-ngx-image-zoom
+          [thumbImage]="
+            'https://localhost:44359/' + product.images[0].imageName
+          "
+          [fullImage]="'https://localhost:44359/' + product.images[0].imageName"
+          [magnification]="1.3"
+          [enableLens]="true"
+          [lensHeight]="150"
+          [lensWidth]="150"
+          [enableScrollZoom]="true"
+        ></lib-ngx-image-zoom>
+
+        <div class="thumbnail-container">
+          @for (img of product.images; track $index) {
+          <img
+            alt=""
+            src="https://localhost:44359/{{ img.imageName }}"
+            (click)="setMainImage(img.imageName)"
+            class="thumbnail"
+          />
+          }
+        </div>
+      </div>
+    </div>
+
+    <!-- Product Details -->
+    <div class="col-md-6">
+      <h2 class="product-title">{{ product.name }}</h2>
+      <p class="product-description">{{ product.description }}</p>
+      <div class="product-pricing">
+        <span class="old-price" *ngIf="product.oldPrice">{{
+          product.oldPrice | currency
+        }}</span>
+        <span class="new-price">{{ product.newPrice | currency }}</span>
+      </div>
+      <p class="category">
+        Category: <strong>{{ product.categoryName }}</strong>
+      </p>
+
+      <!-- Quantity Selector -->
+      <p class="fs-6">Selected Quantity : {{ selectedQuantity }}</p>
+      <div class="quantity-selector mb-3">
+        <button class="btn btn-outline-secondary" (click)="decreaseQuantity()">
+          <i class="fa fa-minus"></i>
+        </button>
+        <button class="btn btn-outline-secondary" (click)="increaseQuantity()">
+          <i class="fa fa-plus"></i>
+        </button>
+      </div>
+
+      <!-- Comments Textarea -->
+      <!-- <div class="mb-3">
+          <label for="orderComments" class="form-label">Special Instructions:</label>
+          <textarea id="orderComments"
+                    class="form-control"
+                    [(ngModel)]="product.comments"
+                    rows="3"
+                    placeholder="Add any special instructions or comments..."></textarea>
+        </div> -->
+
+      <button class="btn btn-primary">Add to Cart</button>
+    </div>
+  </div>
+</div>
+}

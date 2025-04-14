@@ -19,7 +19,7 @@ namespace Souq.infrastructure.Repositories
             _imagesService = imagesService;
         }
 
-        public async Task<IEnumerable<ProductDto>> GetAllAsync(GetAllProductsParams getAllProductsParams)
+        public async Task<ReturnProductDto> GetAllAsync(GetAllProductsParams getAllProductsParams)
         {
             IQueryable<Product> query = _context.Products.Include(p => p.Category).Include(p => p.Images).AsNoTracking();
 
@@ -42,6 +42,10 @@ namespace Souq.infrastructure.Repositories
             {
                 query = query.Where(x => x.CategoryId == getAllProductsParams.CategoryId);
             }
+
+            ReturnProductDto returnProductDto = new ReturnProductDto();
+            returnProductDto.TotalCount = query.Count();
+
             //Sorting 
             query = getAllProductsParams.Sort switch
             {
@@ -52,8 +56,8 @@ namespace Souq.infrastructure.Repositories
 
             // Pagination 
             query = query.Skip(getAllProductsParams.PageSize * (getAllProductsParams.PageNumber - 1)).Take(getAllProductsParams.PageSize);
-            var result = _mapper.Map<List<ProductDto>>(query.ToList());
-            return (result);
+            returnProductDto.Products = _mapper.Map<List<ProductDto>>(query.ToList());
+            return (returnProductDto);
         }
 
         public async Task<bool> AddAsync(AddProductDto addProductDto)

@@ -14,10 +14,13 @@
     <div class="collapse navbar-collapse" id="navbarNav">
       <!-- Navigation Links -->
       <ul class="navbar-nav mr-auto">
-        <li class="nav-item"><a routerLink="/" class="nav-link">Home</a></li>
-        <li class="nav-item"><a routerLink="/shopping" class="nav-link">Shopping</a></li>
-        <li class="nav-item"><a routerLink="/about" class="nav-link">About us</a></li>
-        <li class="nav-item"><a routerLink="/best-seller" class="nav-link">Best Seller</a></li>
+
+        <li class="nav-item">
+          <a routerLink="/home" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="nav-link">Home</a>
+        </li>
+        <li class="nav-item"><a routerLink="/shop" routerLinkActive="active" class="nav-link">Shopping</a></li>
+        <li class="nav-item"><a routerLink="#" class="nav-link">About us</a></li>
+        <li class="nav-item"><a routerLink="#" class="nav-link">Best Seller</a></li>
       </ul>
 
       <!-- Search Bar -->

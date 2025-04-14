@@ -1,3 +1,4 @@
+import { GetProductsParams } from './../shared/Models/GetProductsParams';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { IPagination } from '../shared/Models/IPagination';
@@ -12,22 +13,29 @@ export class ShopService {
   constructor(private http:HttpClient) { }
 
   // Get Products
-  getProducts(categoryId?:number , sortOption?:string , Search?:string){
+  getProducts(ProductsParams:GetProductsParams){
     let params = new HttpParams();
-    if(categoryId){
-      params = params.append('categoryId', categoryId);
+    if(ProductsParams.categoryId){
+      params = params.append('categoryId', ProductsParams.categoryId);
     }
-    if(sortOption){
-      params = params.append('Sort', sortOption);
+    if(ProductsParams.sortOption){
+      params = params.append('Sort', ProductsParams.sortOption);
     }
-    if(Search){
-      params = params.append('SearchingWord', Search);
+    if(ProductsParams.Search){
+      params = params.append('SearchingWord', ProductsParams.Search);
     }
+    params = params.append('pageNumber', ProductsParams.pageNumber);
+    params = params.append('pageSize', ProductsParams.pageSize);
     return this.http.get<IPagination>(this.baseUrl + "Product/get-all", {params: params})
   }
 
   //Get Categories
   getCategories(){
     return this.http.get<ICategory[]>(this.baseUrl + "Category/get-all")
+  }
+
+  //Get Product By Id
+  getProductById(id:number){
+    return this.http.get(this.baseUrl + "Product/get/" + id)
   }
 }

@@ -11,12 +11,19 @@ namespace Souq.core.Dtos
 {
     public record ProductDto
     {
+        public int Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public decimal OldPrice { get; set; }
         public decimal NewPrice { get; set; }
         public string  CategoryName { get; set; }
         public virtual List<ImageDto> Images { get; set; }
+    }
+
+    public record ReturnProductDto
+    {
+        public List<ProductDto> Products { get; set; }
+        public int TotalCount { get; set; }
     }
     public record ImageDto
     {

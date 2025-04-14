@@ -11,8 +11,4 @@ import { IPagination } from './shared/Models/IPagination';
 })
 export class AppComponent {
 
-
-
-
-
 }
