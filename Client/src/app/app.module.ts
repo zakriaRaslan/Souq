@@ -5,10 +5,11 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CoreModule } from './core/core.module';
 import { SharedModule } from './shared/shared.module';
-import { provideHttpClient, withFetch } from '@angular/common/http';
-import { ShopComponent } from './shop/shop.component';
+import { HTTP_INTERCEPTORS, provideHttpClient, withFetch, withInterceptorsFromDi } from '@angular/common/http';
 import { ShopModule } from './shop/shop.module';
-
+import { NgxSpinnerModule } from "ngx-spinner";
+import { LoaderInterceptor } from './core/Interceptor/loader.interceptor';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations'
 @NgModule({
   declarations: [
     AppComponent
@@ -18,11 +19,18 @@ import { ShopModule } from './shop/shop.module';
     AppRoutingModule,
     CoreModule,
     SharedModule,
-    ShopModule
+    ShopModule,
+    NgxSpinnerModule,
+    BrowserAnimationsModule
   ],
   providers: [
     provideClientHydration(withEventReplay()),
-    provideHttpClient(withFetch())
+    provideHttpClient(withFetch(),withInterceptorsFromDi()),
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: LoaderInterceptor,
+      multi: true,
+    },
   ],
   bootstrap: [AppComponent]
 })
