@@ -4,6 +4,7 @@ import { ShopService } from './shop.service';
 import { IProduct } from '../shared/Models/IProduct';
 import { IPagination } from '../shared/Models/IPagination';
 import { ICategory } from '../shared/Models/ICategory';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-shop',
@@ -14,7 +15,7 @@ import { ICategory } from '../shared/Models/ICategory';
 export class ShopComponent implements OnInit {
   ProductsParams:GetProductsParams = new GetProductsParams();
   totalCountOfProducts: number = 0;
-  constructor(private shopService: ShopService) {}
+  constructor(private shopService: ShopService , private toastr:ToastrService) {}
   ngOnInit(): void {
     this.getProducts();
     this.getCategories();
@@ -28,6 +29,8 @@ export class ShopComponent implements OnInit {
         this.products = value.data;
         this.totalCountOfProducts = value.count;
         this.ProductsParams.pageSize = value.pageSize;
+        this.toastr.success("All Products Loaded Successfully" , "SUCCESS")
+
       },
     });
   }
